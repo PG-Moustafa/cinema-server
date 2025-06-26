@@ -1,0 +1,17 @@
+the obj that represents the models
+
+
+Backend-Server
+
+Request path
+0/ migrations
+1. controllers
+2. connection
+3. models
+4. DB (then return)
+5. models
+6. controllers
+
+
+
+
