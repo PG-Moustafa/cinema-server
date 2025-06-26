@@ -28,6 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {// get movie by id
     return;
 }
 
+// delete movie
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'delete' && isset($_POST['id'])) {
+    $id = intval($_POST['id']);
+    $movie = new Movie(["id" => $id]);
+
+    $success = $movie->delete($mysqli);
+
+    if ($success) {
+        echo json_encode(["message" => "Movie deleted successfully."]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["message" => "Failed to delete movie."]);
+    }
+    return;
+}
+
 // update movie
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
@@ -89,10 +105,3 @@ if (
     echo json_encode($response);
     return;
 }
-
-// delete movie
-if (true) {
-
-}
-;
-

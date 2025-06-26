@@ -79,7 +79,7 @@ abstract class Model
             static::$table,
             $assignments,
             static::$primary_key
-        ); 
+        );
 
         $query = $mysqli->prepare($sql);
 
@@ -102,7 +102,21 @@ abstract class Model
         return $query->execute();
     }
 
+    public function delete(mysqli $mysqli, )
+    {
 
+        $sql = sprintf(
+            "DELETE FROM %s WHERE %s = ?",
+            static::$table,
+            static::$primary_key
+        );
+
+        $query = $mysqli->prepare($sql);
+
+        $query->bind_param("i", $this->{static::$primary_key});
+        return $query->execute();
+
+    }
 
 }
 

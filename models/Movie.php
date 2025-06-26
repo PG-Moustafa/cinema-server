@@ -15,12 +15,12 @@ class Movie extends Model
     public function __construct(array $data)
     {
         $this->id = $data["id"] ?? null;
-        $this->title = $data["title"];
-        $this->description = $data["description"];
-        $this->rating = $data["rating"];
-        $this->release_date = $data["release_date"];
-        $this->duration_minutes = $data["duration_minutes"];
-        $this->poster_url = $data["poster_url"];
+        $this->title = $data['title'] ?? '';
+        $this->description = $data['description'] ?? '';
+        $this->rating = $data['rating'] ?? '';
+        $this->release_date = $data['release_date'] ?? '';
+        $this->duration_minutes = $data['duration_minutes'] ?? 0;
+        $this->poster_url = $data['poster_url'] ?? '';
     }
 
     public function getId(): int
