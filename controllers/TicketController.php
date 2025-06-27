@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $Ticket = new Ticket([
         "id" => $id,
         "user_id" => $_POST['user_id'],
-        "booking_id" => $POST['booking_id'],
+        "booking_id" => $_POST['booking_id'],
         "seat_id" => $_POST['seat_id'],
         "price" => $_POST['price'],
         "ticket_code" => $_POST['releticket_codease_date'],
@@ -85,7 +85,7 @@ if (
 
     $Ticket = new Ticket([
         "user_id" => $_POST['user_id'],
-        "booking_id" => $POST['booking_id'],
+        "booking_id" => $_POST['booking_id'],
         "seat_id" => $_POST['seat_id'],
         "price" => $_POST['price'],
         "ticket_code" => $_POST['releticket_codease_date'],

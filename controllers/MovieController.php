@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $movie = new Movie([
         "id" => $id,
         "title" => $_POST['title'],
-        "genre" => $POST['genre'],
+        "genre" => $_POST['genre'],
         "description" => $_POST['description'],
         "rating" => $_POST['rating'],
         "release_date" => $_POST['release_date'],

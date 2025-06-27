@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $Payment = new Payment([
         "id" => $id,
         "booking_id" => $_POST['booking_id'],
-        "payer_user_id" => $POST['payer_user_id'],
+        "payer_user_id" => $_POST['payer_user_id'],
         "amount_paid" => $_POST['amount_paid'],
         "method" => $_POST['method'],
         "paid_at" => $_POST['paid_at'],
@@ -85,7 +85,7 @@ if (
 
     $Payment = new Payment([
         "booking_id" => $_POST['booking_id'],
-        "payer_user_id" => $POST['payer_user_id'],
+        "payer_user_id" => $_POST['payer_user_id'],
         "amount_paid" => $_POST['amount_paid'],
         "method" => $_POST['method'],
         "paid_at" => $_POST['paid_at']

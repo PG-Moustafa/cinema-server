@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $booking = new booking([
         "id" => $id,
         "user_id" => $_POST['user_id'],
-        "showtime_id" => $POST['showtime_id'],
+        "showtime_id" => $_POST['showtime_id'],
         "total_amount" => $_POST['total_amount'],
         "status" => $_POST['status'],
         "created_at" => $_POST['created_at'],
@@ -85,7 +85,7 @@ if (
 
     $booking = new booking([
         "user_id" => $_POST['user_id'],
-        "showtime_id" => $POST['showtime_id'],
+        "showtime_id" => $_POST['showtime_id'],
         "total_amount" => $_POST['total_amount'],
         "status" => $_POST['status'],
         "created_at" => $_POST['created_at'],
