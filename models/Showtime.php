@@ -11,6 +11,7 @@ class Showtime extends Model
     protected string $show_time; // Format: HH:MM:SS
     protected static string $table = "showtimes";
 
+
     public function __construct(array $data)
     {
         $this->id = $data['id'] ?? null;

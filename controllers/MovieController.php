@@ -7,7 +7,7 @@ $response["status"] = 200;
 
 // get movies
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // get movie by id
+  // get movie by id
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
 

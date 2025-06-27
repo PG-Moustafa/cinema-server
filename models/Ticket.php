@@ -12,6 +12,7 @@ class Ticket extends Model
     protected string $ticket_code;
     protected static string $table = "tickets";
 
+
     public function __construct(array $data)
     {
         $this->id = $data['id'] ?? null;

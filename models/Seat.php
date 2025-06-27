@@ -12,6 +12,7 @@ class Seat extends Model
     protected string $seat_type;
     protected static string $table = "seats";
 
+
     public function __construct(array $data)
     {
         $this->id = $data['id'] ?? null;
