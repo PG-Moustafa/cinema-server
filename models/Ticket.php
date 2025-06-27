@@ -10,6 +10,8 @@ class Ticket extends Model
     protected int $seat_id;
     protected float $price;
     protected string $ticket_code;
+    protected static string $table = "tickets";
+
 
     public function __construct(array $data)
     {

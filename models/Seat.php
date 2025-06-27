@@ -10,6 +10,8 @@ class Seat extends Model
     protected string $row_label;
     protected int $seat_number;
     protected string $seat_type;
+    protected static string $table = "seats";
+
 
     public function __construct(array $data)
     {

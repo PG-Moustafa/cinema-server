@@ -6,7 +6,8 @@ $response = [];
 $response["status"] = 200;
 
 // get movies
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {// get movie by id
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  // get movie by id
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
 
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {// get movie by id
 }
 
 // delete movie
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'delete' && isset($_POST['id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $movie = new Movie(["id" => $id]);
 
@@ -52,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $movie = new Movie([
         "id" => $id,
         "title" => $_POST['title'],
+        "genre" => $POST['genre'],
         "description" => $_POST['description'],
         "rating" => $_POST['rating'],
         "release_date" => $_POST['release_date'],
@@ -76,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' && isset(
     $_POST['title'],
+    $_POST['genre'],
     $_POST['description'],
     $_POST['rating'],
     $_POST['release_date'],
@@ -86,6 +89,7 @@ if (
 
     $movie = new Movie([
         "title" => $_POST['title'],
+        "genre" => $_POST['genre'],
         "description" => $_POST['description'],
         "rating" => $_POST['rating'],
         "release_date" => $_POST['release_date'],

@@ -10,6 +10,7 @@ class Payment extends Model
     protected float $amount_paid;
     protected string $method;
     protected string $paid_at;
+    protected static string $table = "payments";
 
     public function __construct(array $data)
     {

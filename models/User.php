@@ -11,6 +11,7 @@ class User extends Model
     protected string $phone;
     protected string $password_hash;
     protected string $birthdate;
+    protected static string $table = 'users';
 
     public function __construct(array $data)
     {

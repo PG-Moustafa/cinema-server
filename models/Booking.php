@@ -10,6 +10,7 @@ class Booking extends Model
     protected float $total_amount;
     protected string $status; // 'pending', 'confirmed', 'cancelled'
     protected string $created_at;
+    protected static string $table = "bookings";
 
     public function __construct(array $data)
     {

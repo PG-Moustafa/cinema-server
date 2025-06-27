@@ -9,6 +9,8 @@ class Showtime extends Model
     protected int $auditorium_id;
     protected string $show_date; // Format: YYYY-MM-DD
     protected string $show_time; // Format: HH:MM:SS
+    protected static string $table = "showtimes";
+
 
     public function __construct(array $data)
     {
