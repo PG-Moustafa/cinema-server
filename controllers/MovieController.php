@@ -6,7 +6,8 @@ $response = [];
 $response["status"] = 200;
 
 // get movies
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {// get movie by id
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  // get movie by id
     if (isset($_GET["id"])) {
         $id = $_GET["id"];
 
@@ -28,6 +29,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {// get movie by id
     return;
 }
 
+// delete movie
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['id'])) {
+    $id = intval($_POST['id']);
+    $movie = new Movie(["id" => $id]);
+
+    $success = $movie->delete($mysqli);
+
+    if ($success) {
+        echo json_encode(["message" => "Movie deleted successfully."]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["message" => "Failed to delete movie."]);
+    }
+    return;
+}
+
 // update movie
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
@@ -36,10 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $movie = new Movie([
         "id" => $id,
         "title" => $_POST['title'],
-<<<<<<< Updated upstream
-=======
         "genre" => $_POST['genre'],
->>>>>>> Stashed changes
         "description" => $_POST['description'],
         "rating" => $_POST['rating'],
         "release_date" => $_POST['release_date'],
@@ -64,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' && isset(
     $_POST['title'],
+    $_POST['genre'],
     $_POST['description'],
     $_POST['rating'],
     $_POST['release_date'],
@@ -74,6 +89,7 @@ if (
 
     $movie = new Movie([
         "title" => $_POST['title'],
+        "genre" => $_POST['genre'],
         "description" => $_POST['description'],
         "rating" => $_POST['rating'],
         "release_date" => $_POST['release_date'],
@@ -93,10 +109,3 @@ if (
     echo json_encode($response);
     return;
 }
-
-// delete movie
-if (true) {
-
-}
-;
-

@@ -1,6 +1,6 @@
 <?php
 
-$sql = "CREATE TABLE IF NOT EXISTS seats (
+$sql = "CREATE TABLE IF NOT EXISTS payments (
     id INT PRIMARY KEY AUTO_INCREMENT,
     booking_id INT,
     payer_user_id INT,
