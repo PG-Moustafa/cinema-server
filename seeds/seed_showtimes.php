@@ -1,7 +1,7 @@
 <?php
 
-require_once("../models/Showtime.php");
-require_once("../connection/connection.php");
+require_once(__DIR__ . '/../connection/connection.php');
+require_once(__DIR__ . '/../models/Showtime.php');
 
 // Get available movie IDs
 $movie_ids = [];

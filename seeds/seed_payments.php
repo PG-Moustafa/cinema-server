@@ -1,17 +1,9 @@
 <?php
 
-require_once("../connection/connection.php");
-require_once("../models/Payment.php");
+require_once(__DIR__ . '/../connection/connection.php');
+require_once(__DIR__ . '/../models/Payment.php');
+require_once(__DIR__ . '/functions.php');
 
-function fetchIds($mysqli, $table)
-{
-    $ids = [];
-    $res = $mysqli->query("SELECT id FROM $table");
-    while ($row = $res->fetch_assoc()) {
-        $ids[] = $row['id'];
-    }
-    return $ids;
-}
 
 $booking_ids = fetchIds($mysqli, "bookings");
 $user_ids = fetchIds($mysqli, "users");
@@ -37,7 +29,7 @@ for ($i = 0; $i < 20; $i++) {
     $data = $payment->toArray();
 
     $stmt = $mysqli->prepare("INSERT INTO payments (booking_id, payer_user_id, amount_paid, method, paid_at) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("iids", $data['booking_id'], $data['payer_user_id'], $data['amount_paid'], $data['method'], $data['paid_at']);
+    $stmt->bind_param("iidss", $data['booking_id'], $data['payer_user_id'], $data['amount_paid'], $data['method'], $data['paid_at']);
     $stmt->execute();
 }
 

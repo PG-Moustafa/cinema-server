@@ -1,7 +1,8 @@
 <?php
 
-require_once("../models/Seat.php");
-require_once("../connection/connection.php");
+require_once(__DIR__ . '/../connection/connection.php');
+require_once(__DIR__ . '/../models/Seat.php');
+
 
 $auditorium_id = ['1', '2', '3', '4', '5'];
 $rows = ['A', 'B', 'C', 'D', 'E'];
@@ -11,7 +12,7 @@ foreach ($auditorium_id as $audit) {
     foreach ($rows as $row) {
         for ($i = 1; $i <= 10; $i++) {
             $seat = new Seat([
-                'auditorium_id' => $auditorium_id,
+                'auditorium_id' => $audit,
                 'row_label' => $row,
                 'seat_number' => $i,
                 'seat_type' => $seat_types[array_rand($seat_types)]

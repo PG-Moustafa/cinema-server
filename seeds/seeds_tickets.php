@@ -1,19 +1,8 @@
 <?php
 
-require_once("../models/Ticket.php");
-require_once("../connection/connection.php");
-
-// put this func in a table alone
-// and try to use it in all seeds file when needed
-function fetchIds($mysqli, $table)
-{
-    $ids = [];
-    $res = $mysqli->query("SELECT id FROM $table");
-    while ($row = $res->fetch_assoc()) {
-        $ids[] = $row['id'];
-    }
-    return $ids;
-}
+require_once(__DIR__ . '/../connection/connection.php');
+require_once(__DIR__ . '/../models/Ticket.php');
+require_once(__DIR__ . '/functions.php');
 
 $user_ids = fetchIds($mysqli, "users");
 $booking_ids = fetchIds($mysqli, "bookings");
