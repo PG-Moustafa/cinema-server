@@ -1,7 +1,7 @@
 <?php
 
-require_once("../models/Booking.php");
-require_once("../connection/connection.php");
+require_once(__DIR__ . '/../connection/connection.php');
+require_once(__DIR__ . '/../models/Booking.php');
 
 // select users id
 $user_ids = [];

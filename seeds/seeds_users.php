@@ -1,6 +1,6 @@
 <?php
-require('../connection/connection.php');
-require('../models/User.php');
+require_once(__DIR__ . '/../connection/connection.php');
+require_once(__DIR__ . '/../models/User.php');
 
 $names = [
     "Ali",

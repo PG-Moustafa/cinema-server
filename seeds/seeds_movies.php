@@ -1,5 +1,6 @@
 <?php
-require('../connection/connection.php');
+require_once(__DIR__ . '/../connection/connection.php');
+require_once(__DIR__ . '/../models/Movie.php');
 
 $movies = [
     [
