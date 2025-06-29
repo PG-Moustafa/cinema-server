@@ -4,15 +4,18 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 require_once(__DIR__ . '/../connection/connection.php');
 
+// Decode JSON request
 $data = json_decode(file_get_contents("php://input"), true);
 
+// Extract values safely
 $name = $data['name'] ?? '';
 $email = $data['email'] ?? '';
 $phone = $data['phone'] ?? '';
-$password = $data['password_hash'] ?? '';
+$password = $data['password'] ?? '';
 $birthdate = $data['birthdate'] ?? '';
 
-if (!$name || !$email || !$phone || !$password_hash || !$birthdate) {
+// Validate all fields
+if (!$name || !$email || !$phone || !$password || !$birthdate) {
     http_response_code(400);
     echo json_encode(["error" => "All fields are required."]);
     exit;
@@ -30,8 +33,9 @@ if ($result->fetch_assoc()) {
     exit;
 }
 
-$password_hash = password_hash($password_hash, PASSWORD_DEFAULT);
+$password_hash = password_hash($password, PASSWORD_DEFAULT);
 
+// Create into DB
 $stmt = $mysqli->prepare("INSERT INTO users (name, email, phone, password_hash, birthdate) VALUES (?, ?, ?, ?, ?)");
 $stmt->bind_param("sssss", $name, $email, $phone, $password_hash, $birthdate);
 
