@@ -4,7 +4,6 @@
 header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
-echo json_encode(['status' => 'cors headers sent']);
 
 require("../models/Movie.php");
 require("../connection/connection.php");
