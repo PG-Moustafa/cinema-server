@@ -217,7 +217,7 @@ $movies = [
         'rating' => '8.1', // over 10
         'release_date' => '2010-07-07',
         'duration_minutes' => 91,
-        'poster_url' => 'https://www.themoviedb.org/movie/872585-oppenheimer#'
+        'poster_url' => 'https://www.themoviedb.org/t/p/w1280/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg'
     ],
     [
         'title' => 'Coco',
