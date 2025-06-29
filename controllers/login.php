@@ -25,7 +25,9 @@ if ($user = $result->fetch_assoc()) {
         echo json_encode([
             "id" => $user['id'],
             "email" => $user['email'],
-            "name" => $user['name']
+            "name" => $user['name'],
+            "phone" => $user['phone'],
+            "birthdate" => $user['birthdate']
         ]);
     } else {
         http_response_code(401);
