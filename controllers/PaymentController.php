@@ -1,11 +1,6 @@
 <?php
-// CORS headers — MUST come before any output
-header("Access-Control-Allow-Origin: http://127.0.0.1:5500");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-
+require_once(__DIR__ . '/../scripts/BaseRequires.php');
 require("../models/Payment.php");
-require("../connection/connection.php");
 
 $response = [];
 $response["status"] = 200;

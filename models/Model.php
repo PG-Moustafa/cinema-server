@@ -1,6 +1,7 @@
 <?php
 abstract class Model
 {
+
     protected static string $table;
     protected static string $primary_key = "id";
 
@@ -23,88 +24,35 @@ abstract class Model
 
     public static function all(mysqli $mysqli)
     {
-        $sql = sprintf(
-            "SELECT * FROM %s",
-            static::$table
-        );
+        $sql = sprintf("Select * from %s", static::$table);
 
         $query = $mysqli->prepare($sql);
         $query->execute();
+
         $data = $query->get_result();
 
         $objects = [];
         while ($row = $data->fetch_assoc()) {
-            $objects[] = new static($row);
-        }
-        return $objects;
-    }
-
-    public static function create(mysqli $mysqli, array $data)
-    {
-        $columns = array_keys($data);
-        $placeholder = implode(", ", array_fill(0, count($columns), "?"));
-        $columns_list = implode(", ", $columns);
-
-        $sql = sprintf(
-            "INSERT INTO %s ($columns_list) VALUES ($placeholder)",
-            static::$table
-        );
-        $query = $mysqli->prepare($sql);
-
-        $types = "";
-        $values = [];
-
-        foreach ($data as $value) {
-            $types .= match (true) {
-                is_int($value) => 'i',
-                is_float($value) => 'd',
-                default => 's',
-            };
-            $values[] = $value;
+            $objects[] = new static($row); //creating an object of type "static" / "parent" and adding the object to the array
         }
 
-        $query->bind_param($types, ...$values);
-
-        return $query->execute();
-
+        return $objects; //we are returning an array of objects!!!!!!!!
     }
 
-    public function update(mysqli $mysqli, array $data): bool
+    public static function deleteAll(mysqli $mysqli)
     {
-        $columns = array_keys($data);
-        $assignments = implode(", ", array_map(fn($col) => "$col = ?", $columns));
+        try {
+            $sql = sprintf("DELETE FROM %s", static::$table);
 
-        $sql = sprintf(
-            "UPDATE %s SET %s WHERE %s = ?",
-            static::$table,
-            $assignments,
-            static::$primary_key
-        );
-
-        $query = $mysqli->prepare($sql);
-
-        $types = "";
-        $values = [];
-
-        foreach ($data as $value) {
-            $types .= match (true) {
-                is_int($value) => 'i',
-                is_float($value) => 'd',
-                default => 's',
-            };
-            $values[] = $value;
+            $query = $mysqli->prepare($sql);
+            $query->execute();
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
         }
-
-        $types .= 'i';
-        $values[] = $this->{static::$primary_key};
-
-        $query->bind_param($types, ...$values);
-        return $query->execute();
     }
 
-    public function delete(mysqli $mysqli, )
+    public static function delete(mysqli $mysqli, int $id)
     {
-
         $sql = sprintf(
             "DELETE FROM %s WHERE %s = ?",
             static::$table,
@@ -112,22 +60,56 @@ abstract class Model
         );
 
         $query = $mysqli->prepare($sql);
-
-        $query->bind_param("i", $this->{static::$primary_key});
-        return $query->execute();
-
+        $query->bind_param("i", $id);
+        $query->execute();
     }
+
+    public static function add(mysqli $mysqli, $data)
+    {
+        $columns = array_keys($data);
+        $columns_list = implode(", ", $columns);
+        $placeholder = implode(", ", array_fill(0, count($columns), "?"));
+
+        $sql = sprintf(
+            "INSERT INTO %s (%s) VALUES (%s)",
+            static::$table,
+            $columns_list,
+            $placeholder
+        );
+
+        $query = $mysqli->prepare($sql);
+        $types = "";
+        $values = [];
+
+        // check datatypes of values
+        foreach ($data as $value) {
+            if (is_string($value)) {
+                $types .= 's';
+            } elseif (is_int($value)) {
+                $types .= 'i';
+            } elseif (is_double($value)) {
+                $types .= 'd';
+            } elseif (is_bool($value)) {
+                $types .= 'i';
+            } else {
+                $types .= 's';
+            }
+            $values[] = $value;
+        }
+
+        $query->bind_param($types, ...$values);
+        $query->execute();
+        $query->close();
+    }
+
+    // should be implemented
+    public static function update(mysqli $mysqli)
+    {
+        return 0;
+    }
+
 
 }
 
 
 
-
-//you have to continue with the same mindset
-//Find a solution for sending the $mysqli everytime...
-//Implement the following:
-//1- update() -> non-static function - completing
-//2- create() -> static function - done
-//3- delete() -> non-static function
-
-?>

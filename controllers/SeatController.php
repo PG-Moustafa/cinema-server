@@ -1,6 +1,6 @@
 <?php
+require_once(__DIR__ . '/../scripts/BaseRequires.php');
 require("../models/Seat.php");
-require("../connection/connection.php");
 
 $response = [];
 $response["status"] = 200;
