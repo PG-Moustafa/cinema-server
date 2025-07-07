@@ -1,9 +1,5 @@
 <?php
 
-// This block is used to extract the route name from the URL
-//----------------------------------------------------------
-// Define your base directory 
-
 $base_dir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -20,26 +16,10 @@ if ($request == '') {
     $request = '/';
 }
 
-//Examples: 
-//http://localhost/getArticles -------> $request = "getArticles"
-//http://localhost/ -------> $request = "/" (why? because of the if)
-
-// This block is used to extract the route name from the URL
-//----------------------------------------------------------
-
-//Routing starts here (Mapping between the request and the controller & method names)
-//It's an key-value array where the value is an key-value array
-//----------------------------------------------------------
-// THIS IS THE ROUTING TABLE (with PHP associative array)
 $apis = require 'routes/api.php';
 
-//----------------------------------------------------------
-
-//Routing Logic here 
-//This is a dynamic logic, that works on any array... 
-//----------------------------------------------------------
 if (isset($apis[$request])) {
-    $controller_name = $apis[$request]['controller']; //if $request == /articles, then the $controller_name will be "ArticleController" 
+    $controller_name = $apis[$request]['controller'];
     $method = $apis[$request]['method'];
     require_once "controllers/{$controller_name}.php";
 

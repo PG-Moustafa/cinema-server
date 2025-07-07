@@ -27,4 +27,3 @@ foreach ($auditorium_id as $audit) {
     }
 }
 
-echo "Seeded " . count($auditorium_id) * count($rows) * 10 . " seats successfully.";

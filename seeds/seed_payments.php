@@ -32,5 +32,3 @@ for ($i = 0; $i < 20; $i++) {
     $stmt->bind_param("iidss", $data['booking_id'], $data['payer_user_id'], $data['amount_paid'], $data['method'], $data['paid_at']);
     $stmt->execute();
 }
-
-echo "Seeded 20 payments successfully.";

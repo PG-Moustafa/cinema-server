@@ -96,12 +96,12 @@ class BookingController
             $success = $booking->update($mysqli, $booking->toArray());
             echo ResponseService::success_response(
                 [],
-                "Article updated successfully."
+                "Booking updated successfully."
             );
 
         } catch (Exception $e) {
             echo ResponseService::error_response(
-                "Failed to add articles: " . $e->getMessage()
+                "Failed to update booking: " . $e->getMessage()
             );
         }
 

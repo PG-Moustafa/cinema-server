@@ -294,5 +294,4 @@ foreach ($movies as $movie) {
     $stmt->execute();
 }
 
-echo "Movies seeded successfully.";
 ?>

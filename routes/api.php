@@ -2,7 +2,6 @@
 
 return [
 
-
     // authentication
     '/login' => [
         'controller' => 'AuthController',

@@ -1,8 +1,7 @@
 <?php
-
-require_once(__DIR__ . '/../scripts/BaseRequires.php');
-require("../models/Movie.php");
-require(__DIR__ . "/../services/MovieService.php");
+require_once __DIR__ . '/../scripts/BaseRequires.php';
+require_once __DIR__ . "/../models/Movie.php";
+require __DIR__ . "/../services/MovieService.php";
 
 class MovieController
 {
@@ -86,35 +85,6 @@ class MovieController
 
             $id = intval($_POST['id']);
 
-            $booking = new booking([
-                "id" => $id,
-                "user_id" => $_POST['user_id'],
-                "showtime_id" => $_POST['showtime_id'],
-                "total_amount" => $_POST['total_amount'],
-                "status" => $_POST['status'],
-                "created_at" => $_POST['created_at'],
-            ]);
-
-            $success = $booking->update($mysqli, $booking->toArray());
-            echo ResponseService::success_response(
-                [],
-                "Article updated successfully."
-            );
-
-        } catch (Exception $e) {
-            echo ResponseService::error_response(
-                "Failed to add articles: " . $e->getMessage()
-            );
-        }
-
-
-        global $mysqli;
-
-        // update movie
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-
-            $id = intval($_POST['id']);
-
             $movie = new Movie([
                 "id" => $id,
                 "title" => $_POST['title'],
@@ -127,17 +97,17 @@ class MovieController
             ]);
 
             $success = $movie->update($mysqli, $movie->toArray());
+            echo ResponseService::success_response(
+                [],
+                "Movie updated successfully."
+            );
 
-            if ($success) {
-                $response['message'] = 'Movie updated successfully.';
-            } else {
-                $response['status'] = 500;
-                $response['message'] = 'Failed to update movie.';
-            }
-
-            echo json_encode($response);
-            return;
+        } catch (Exception $e) {
+            echo ResponseService::error_response(
+                "Failed to update movie: " . $e->getMessage()
+            );
         }
+
     }
 
     public function addMovie()
@@ -153,45 +123,6 @@ class MovieController
 
         try {
 
-            $booking = new booking([
-                "user_id" => $_POST['user_id'],
-                "showtime_id" => $_POST['showtime_id'],
-                "total_amount" => $_POST['total_amount'],
-                "status" => $_POST['status'],
-                "created_at" => $_POST['created_at'],
-            ]);
-
-            $success = Booking::add($mysqli, $booking->toArray());
-            echo ResponseService::success_response(
-                [],
-                "Booking added successfully."
-            );
-
-        } catch (Exception $e) {
-
-            echo ResponseService::error_response(
-                "Failed to add booking: " . $e->getMessage()
-            );
-        }
-
-
-
-
-        global $mysqli;
-
-        // create movie
-        if (
-            $_SERVER['REQUEST_METHOD'] === 'POST' && isset(
-            $_POST['title'],
-            $_POST['genre'],
-            $_POST['description'],
-            $_POST['rating'],
-            $_POST['release_date'],
-            $_POST['duration_minutes'],
-            $_POST['poster_url']
-        )
-        ) {
-
             $movie = new Movie([
                 "title" => $_POST['title'],
                 "genre" => $_POST['genre'],
@@ -202,17 +133,17 @@ class MovieController
                 "poster_url" => $_POST['poster_url']
             ]);
 
-            $success = Movie::create($mysqli, $movie->toArray());
+            $success = Movie::add($mysqli, $movie->toArray());
+            echo ResponseService::success_response(
+                [],
+                "Movie added successfully."
+            );
 
-            if ($success) {
-                $response['message'] = 'Movie created successfully.';
-            } else {
-                $response['status'] = 500;
-                $response['message'] = 'Failed to create movie.';
-            }
+        } catch (Exception $e) {
 
-            echo json_encode($response);
-            return;
+            echo ResponseService::error_response(
+                "Failed to add movie: " . $e->getMessage()
+            );
         }
     }
 

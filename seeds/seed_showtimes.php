@@ -42,4 +42,3 @@ for ($i = 0; $i < 30; $i++) {
     $stmt->execute();
 }
 
-echo "Seeded 30 showtimes successfully.";

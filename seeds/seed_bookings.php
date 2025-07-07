@@ -39,4 +39,3 @@ for ($i = 0; $i < 20; $i++) {
     $stmt->execute();
 }
 
-echo "Seeded 20 bookings successfully.";

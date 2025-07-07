@@ -1,107 +1,148 @@
 <?php
-require_once(__DIR__ . '/../scripts/BaseRequires.php');
-require("../models/User.php");
 
-$response = [];
-$response["status"] = 200;
+require_once __DIR__ . '/../scripts/BaseRequires.php';
+require_once __DIR__ . "/../models/User.php";
+require __DIR__ . "/../services/UserService.php";
 
-// get users
-if ($_SERVER["REQUEST_METHOD"] === 'GET') {
-    // get user by id
-    if (isset($_GET["id"])) {
-        $id = $_GET["id"];
+class UserController
+{
 
-        $user = User::find($mysqli, $id);
-        $response["user"] = $user->toArray();
+    public function getAllUsers()
+    {
+        global $mysqli;
 
-        echo json_encode($response["user"]);
-        return;
+        try {
+            $users = User::all($mysqli);
+            $users_array = UserService::usersToArray($users);
+            echo ResponseService::success_response($users_array);
+
+        } catch (Exception $e) {
+
+            echo ResponseService::error_response(
+                "Failed to retreive users: " . $e->getMessage()
+            );
+        }
     }
 
-    // get all users
-    $users = User::all($mysqli);
+    public function getUserById()
+    {
+        global $mysqli;
 
-    $response["users"] = [];
-    foreach ($users as $u) {
-        $response["users"][] = $u->toArray();
-    }
-    echo json_encode($response["users"]);
-    return;
-}
+        try {
 
-// delete user
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['id'])) {
-    $id = intval($_POST['id']);
-    $user = new User(["id" => $id]);
+            $id = $_GET["id"];
+            $user = User::find($mysqli, $id)->toArray();
+            echo ResponseService::success_response($user);
 
-    $success = $user->delete($mysqli);
+        } catch (Exception $e) {
 
-    if ($success) {
-        echo json_encode(["message" => "User deleted successfully."]);
-    } else {
-        http_response_code(500);
-        echo json_encode(["message" => "Failed to delete user."]);
-    }
-    return;
-}
-
-// update user
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-
-    $id = intval($_POST['id']);
-
-    $user = new User([
-        "id" => $id,
-        "name" => $_POST['name'],
-        "email" => $_POST['email'],
-        "phone" => $_POST['phone'],
-        "password_hash" => $_POST['password_hash'],
-        "birthdate" => $_POST['birthdate'],
-    ]);
-
-    $success = $user->update($mysqli, $user->toArray());
-
-    if ($success) {
-        $response['message'] = 'Movie updated successfully.';
-    } else {
-        $response['status'] = 500;
-        $response['message'] = 'Failed to update movie.';
+            echo ResponseService::error_response(
+                "Failed to retreive user: " . $e->getMessage()
+            );
+        }
     }
 
-    echo json_encode($response);
-    return;
-}
+    public function deleteAllUsers()
+    {
+        global $mysqli;
 
-// create user
-if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' && isset(
-    $_POST['name'],
-    $_POST['email'],
-    $_POST['phone'],
-    $_POST['password_hash'],
-    $_POST['birthdate'],
-)
-) {
+        try {
 
-    $user = new User([
-        "name" => $_POST['name'],
-        "email" => $_POST['email'],
-        "phone" => $_POST['phone'],
-        "password_hash" => $_POST['password_hash'],
-        "birthdate" => $_POST['birthdate'],
-    ]);
+            User::deleteAll($mysqli);
+            echo ResponseService::success_response([]);
 
-    $success = User::create($mysqli, $user->toArray());
+        } catch (Exception $e) {
 
-    if ($success) {
-        $response['message'] = 'User created successfully.';
-    } else {
-        $response['status'] = 500;
-        $response['message'] = 'Failed to create user.';
+            echo ResponseService::error_response(
+                "Failed to delete users: " . $e->getMessage()
+            );
+        }
     }
 
-    echo json_encode($response);
-    return;
+    public function deleteUserById()
+    {
+        global $mysqli;
+
+        try {
+
+            $id = $_GET["id"];
+            User::delete($mysqli, $id);
+            echo ResponseService::success_response([]);
+            return;
+
+        } catch (Exception $e) {
+
+            echo ResponseService::error_response(
+                "Failed to delete user: " . $e->getMessage()
+            );
+        }
+    }
+
+    public function updateUser()
+    {
+        global $mysqli;
+
+        try {
+
+            $id = intval($_POST['id']);
+
+            $user = new User([
+                "id" => $id,
+                "name" => $_POST['name'],
+                "email" => $_POST['email'],
+                "phone" => $_POST['phone'],
+                "password_hash" => $_POST['password_hash'],
+                "birthdate" => $_POST['birthdate'],
+            ]);
+
+            $success = $user->update($mysqli, $user->toArray());
+            echo ResponseService::success_response(
+                [],
+                "User updated successfully."
+            );
+
+        } catch (Exception $e) {
+            echo ResponseService::error_response(
+                "Failed to update user: " . $e->getMessage()
+            );
+        }
+
+    }
+
+    public function addUser()
+    {
+
+        global $mysqli;
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo ResponseService::error_response("Method Not Allowed. Use POST.");
+            return;
+        }
+
+        try {
+
+            $user = new User([
+                "name" => $_POST['name'],
+                "email" => $_POST['email'],
+                "phone" => $_POST['phone'],
+                "password_hash" => $_POST['password_hash'],
+                "birthdate" => $_POST['birthdate'],
+            ]);
+
+            $success = User::add($mysqli, $user->toArray());
+            echo ResponseService::success_response(
+                [],
+                "User added successfully."
+            );
+
+        } catch (Exception $e) {
+
+            echo ResponseService::error_response(
+                "Failed to add user: " . $e->getMessage()
+            );
+        }
+    }
 }
 
 

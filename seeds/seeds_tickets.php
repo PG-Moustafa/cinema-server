@@ -29,4 +29,3 @@ for ($i = 0; $i < count($seat_ids) / 2; $i++) {
     $stmt->execute();
 }
 
-echo "Seeded 15 tickets successfully.";
